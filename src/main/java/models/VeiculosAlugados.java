@@ -18,9 +18,13 @@ public class VeiculosAlugados {
     private Clientes cliente;
     @ManyToOne
     private Veiculos veiculo;
+    @Column(name = "data_inicio")
     private LocalDate dataInicio;
+    @Column(name = "data_final")
     private Date dataFinal;
+    @Column(name = "valor_diaria")
     private BigDecimal valorDiaria;
+    @Column(name = "valor_locacao")
     private BigDecimal valorLocacao;
     private int status = 1;
 
@@ -35,16 +39,15 @@ public class VeiculosAlugados {
 
     @Override
     public String toString() {
-        return "VeiculosAlugados{" +
-                "id=" + id +
-                ", cliente=" + cliente + //recuperar apenas o cpf
-                ", veiculo=" + veiculo + //recuperar apenas a placa
-                ", dataInicio=" + dataInicio +
-                ", dataFinal=" + dataFinal +
-                ", valorDiaria=" + valorDiaria +
-                ", valorLocacao=" + valorLocacao +
-                ", status=" + status +
-                '}';
+        return "Veiculo Alugado: " +
+                "id = " + id +
+                ", cliente = " + cliente.getCpf() + //USEI RELACIONAMENTO BIDIRECIONAL
+                ", veiculo = " + veiculo.getPlaca() + //recuperar apenas a placa
+                ", dataInicio = " + dataInicio +
+                ", dataFinal = " + dataFinal +
+                ", valorDiaria = " + valorDiaria +
+                ", valorLocacao = " + valorLocacao +
+                ", status = " + status;
     }
 
     public BigDecimal getValorLocacao() {

@@ -3,6 +3,8 @@ package models;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "veiculos")
@@ -14,15 +16,20 @@ public class Veiculos {
     private String marca;
     private String placa;
     private String modelo;
+    @Column(name = "numero_portas")
     private int numeroPortas;
     private BigDecimal valor;
     private String cor;
     private int ano;
+    @Column(name = "data_cadastro")
     private LocalDate dataCadastro = LocalDate.now();
     @ManyToOne
     private CategoriasVeiculo categoria;
-    //@Column(nullable = false, columnDefinition = "TINYINT(1)")
     private int status = 1; //corrigir o formato, está estranho no MySQL
+    //TESTE
+    @OneToMany(mappedBy= "veiculo", cascade = CascadeType.ALL) //necesario configurr quando existe relaciomento bidirecional
+    private List<VeiculosAlugados> historicoDeAlugueis = new ArrayList<>();
+    //
 
     public Veiculos(){}
 

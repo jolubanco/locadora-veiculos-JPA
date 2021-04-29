@@ -1,6 +1,8 @@
 package models;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "clientes")
@@ -11,10 +13,13 @@ public class Clientes extends Autenticavel {
     private Long id;
     private String nome;
     private String cpf;
-    //@Column(nullable = false, columnDefinition = "TINYINT(1)")
     private int status = 1;
     @OneToOne
     private Login login;
+    //TESTE - rever a necessidade da lista
+    @OneToMany(mappedBy= "cliente", cascade = CascadeType.ALL) //necesario configurr quando existe relaciomento bidirecional
+    private List<VeiculosAlugados> historioVeiculosAlugados = new ArrayList<>();
+    //
 
     public Clientes(){
     }
@@ -22,6 +27,12 @@ public class Clientes extends Autenticavel {
     public Clientes(String cpf, Login login){
         this.cpf=cpf;
         this.login = login;
+    }
+
+    //rever metodo
+    public void adicionarVecAlugado(VeiculosAlugados vecAlugados){
+        vecAlugados.setCliente(this);
+        this.historioVeiculosAlugados.add(vecAlugados);
     }
 
     public Long getId() {

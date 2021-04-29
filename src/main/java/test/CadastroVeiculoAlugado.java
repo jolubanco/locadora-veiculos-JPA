@@ -25,11 +25,13 @@ public class CadastroVeiculoAlugado {
         VeiculosAlugadosDAO veiculosAlugadosDAO = new VeiculosAlugadosDAO(entityManager);
 
         entityManager.getTransaction().begin();
+
         categoriasVeiculoDAO.cadastrar(categoriasVeiculo);
         veiculosDAO.cadastrar(veiculo);
         loginDAO.cadastrar(login);
         clientesDAO.cadastrar(cliente);
         veiculosAlugadosDAO.cadastrar(veiculosAlugados);
+
         entityManager.getTransaction().commit();
         entityManager.close();
     }
