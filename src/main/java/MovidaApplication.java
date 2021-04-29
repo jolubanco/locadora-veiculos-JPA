@@ -1,7 +1,7 @@
-import dao.FuncionariosDAO;
+import dao.UsuariosDAO;
 import models.Autenticavel;
-import models.Funcionarios;
-import services.FuncionariosServices;
+import models.Usuarios;
+import services.UsuariosServices;
 import util.JPAUtil;
 
 import javax.persistence.EntityManager;
@@ -16,15 +16,16 @@ public class MovidaApplication {
         while(true){
             //feito porcamente
             Scanner leitorLogin = new Scanner(System.in);
-            System.out.print("Usuário: ");
-            String usuarioSolicitado = leitorLogin.nextLine();
+            System.out.print("Username: ");
+            String usernameSolicitado = leitorLogin.nextLine();
             System.out.print("Senha: ");
             String senhaSolicitada = leitorLogin.nextLine();
 //            System.out.println("Funcionário ou Cliente? ");
 //            String categoriaAcesso = leitorLogin.nextLine();
 
-            FuncionariosDAO funcionariosDAO = new FuncionariosDAO(entityManager);
-            Autenticavel usuario = funcionariosDAO.buscaFuncionarioPorUsuario(usuarioSolicitado);
+            UsuariosDAO usuariosDAO = new UsuariosDAO(entityManager);
+            usuariosDAO.buscarPorUsername(usernameSolicitado); //retornando o objeto usuario solicitado, basta realizar a verificação
+            //System.out.println(usuariosDAO.buscarPorUsername(usernameSolicitado).getNome());
 
 
 
@@ -53,7 +54,7 @@ public class MovidaApplication {
 
 
             while(condicao){
-                FuncionariosServices.exibeAcoesFuncionario();
+                UsuariosServices.exibeAcoesFuncionario();
             }
 
         }

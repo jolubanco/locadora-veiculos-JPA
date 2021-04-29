@@ -1,22 +1,26 @@
 package models;
 
-import javax.persistence.*;
+import com.sun.istack.NotNull;
 
+import javax.persistence.*;
+//a questao do usuario ser unico foi tratada, basta tratar a exception caso solicite criar um usuario com username repetido
 @Entity
-@Table(name = "login")
+@Table(uniqueConstraints =
+@UniqueConstraint(columnNames = "username", name = "login"))
 public class Login {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String usuario;
+    @NotNull
+    private String username;
     private String senha;
 
     public Login(){
     }
 
     public Login(String usuario, String senha) {
-        this.usuario = usuario;
+        this.username = usuario;
         this.senha = senha;
     }
 
@@ -29,11 +33,11 @@ public class Login {
     }
 
     public String getUsuario() {
-        return usuario;
+        return username;
     }
 
     public void setUsuario(String usuario) {
-        this.usuario = usuario;
+        this.username = usuario;
     }
 
     public String getSenha() {

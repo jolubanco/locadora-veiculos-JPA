@@ -15,7 +15,7 @@ public class VeiculosAlugados {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @ManyToOne
-    private Clientes cliente;
+    private Usuarios usuario;
     @ManyToOne
     private Veiculos veiculo;
     @Column(name = "data_inicio")
@@ -30,8 +30,8 @@ public class VeiculosAlugados {
 
     public VeiculosAlugados(){}
 
-    public VeiculosAlugados(Clientes cliente, Veiculos veiculo, Date dataFinal) {
-        this.cliente = cliente;
+    public VeiculosAlugados(Usuarios usuario, Veiculos veiculo, Date dataFinal) {
+        this.usuario = usuario;
         this.veiculo = veiculo;
         this.dataFinal = dataFinal;
         this.dataInicio = LocalDate.now();
@@ -41,7 +41,7 @@ public class VeiculosAlugados {
     public String toString() {
         return "Veiculo Alugado: " +
                 "id = " + id +
-                ", cliente = " + cliente.getCpf() + //USEI RELACIONAMENTO BIDIRECIONAL
+                ", cliente = " + usuario.getCpf() + //USEI RELACIONAMENTO BIDIRECIONAL
                 ", veiculo = " + veiculo.getPlaca() + //recuperar apenas a placa
                 ", dataInicio = " + dataInicio +
                 ", dataFinal = " + dataFinal +
@@ -66,12 +66,12 @@ public class VeiculosAlugados {
         this.id = id;
     }
 
-    public Clientes getCliente() {
-        return cliente;
+    public Usuarios getUsuario() {
+        return usuario;
     }
 
-    public void setCliente(Clientes cliente) {
-        this.cliente = cliente;
+    public void setUsuario(Usuarios usuario) {
+        this.usuario = usuario;
     }
 
     public Veiculos getVeiculo() {
