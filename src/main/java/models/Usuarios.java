@@ -1,6 +1,7 @@
 package models;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,6 +14,8 @@ public class Usuarios {
     private Long id;
     private String nome;
     private String cpf;
+    @Column(name = "data_cadastro")
+    private LocalDate dataCadastro = LocalDate.now();
     private int status = 1;
 
     //necesario configurr quando existe relaciomento bidirecional
@@ -35,6 +38,10 @@ public class Usuarios {
         this.login = login;
     }
 
+    public void adicionarVeiculoAlugado(VeiculosAlugados veiculosAlugados){
+        veiculosAlugados.setUsuario(this);
+        this.historioVeiculosAlugados.add(veiculosAlugados);
+    }
     public Long getId() {
         return id;
     }

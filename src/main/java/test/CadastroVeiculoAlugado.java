@@ -10,12 +10,15 @@ import java.util.Date;
 
 public class CadastroVeiculoAlugado {
     public static void main(String[] args) {
-        Login login = new Login("tonho","2114");
+        Login login = new Login("tonhao3","2114");
         CategoriasUsuario categoriasUsuario = new CategoriasUsuario("Design");
-        Usuarios usuario = new Usuarios("Tonho","08326702943",categoriasUsuario,login);
+        Usuarios usuario = new Usuarios("Tonho","1010",categoriasUsuario,login);
         CategoriasVeiculo categoriasVeiculo = new CategoriasVeiculo("Moto");
         Veiculos veiculo = new Veiculos("Renaut","AAA-1010",new BigDecimal("35000"),categoriasVeiculo);
         VeiculosAlugados veiculosAlugados = new VeiculosAlugados(usuario,veiculo,new Date(2020,04,30));
+        usuario.adicionarVeiculoAlugado(veiculosAlugados);
+
+        System.out.println(usuario.getHistorioVeiculosAlugados());
         //corrigir as datas iniciais e finais
 
         EntityManager entityManager = JPAUtil.getEntityManager();
@@ -27,7 +30,7 @@ public class CadastroVeiculoAlugado {
         VeiculosAlugadosDAO veiculosAlugadosDAO = new VeiculosAlugadosDAO(entityManager);
 
         entityManager.getTransaction().begin();
-
+        usuario.adicionarVeiculoAlugado(veiculosAlugados);
         categoriasVeiculoDAO.cadastrar(categoriasVeiculo);
         veiculosDAO.cadastrar(veiculo);
         loginDAO.cadastrar(login);

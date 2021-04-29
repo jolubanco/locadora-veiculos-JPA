@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 public class UsuariosServices {
 
-    public static int exibeAcoesClientes(){
+    public static int exibePainelCliente(){
         Scanner leitor = new Scanner(System.in);
         ArrayList<String> listaAcoesFuncionario = new ArrayList();
 
@@ -16,7 +16,7 @@ public class UsuariosServices {
 
 
         System.out.printf("x-------------------------x\n" +
-                "Painel do Funcionário: \n");
+                "Painel do Cliente: \n");
         int n = listaAcoesFuncionario.size();
         for (int i=0; i<n; i++) {
             System.out.printf("%d. %s\n", i+1, listaAcoesFuncionario.get(i));
@@ -44,7 +44,7 @@ public class UsuariosServices {
         return leitor.nextInt();
     }
 
-    public static int exibeAcoesFuncionario(){
+    public static int exibePainelFuncionario(){
         Scanner leitor = new Scanner(System.in);
         ArrayList<String> listaAcoesFuncionario = new ArrayList();
 
@@ -56,6 +56,7 @@ public class UsuariosServices {
         listaAcoesFuncionario.add("Desativar cliente");
         listaAcoesFuncionario.add("Consultar veículos alugados");
         listaAcoesFuncionario.add("Finalizar Locação");
+        listaAcoesFuncionario.add("Exibir Relatório de Locações"); //criar funcionalidade!
         listaAcoesFuncionario.add("Sair");
 
 
