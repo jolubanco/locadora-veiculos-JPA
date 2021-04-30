@@ -1,18 +1,22 @@
 package models;
 
+import com.sun.istack.NotNull;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "usuarios")
+@Table(uniqueConstraints =
+@UniqueConstraint(columnNames = "cpf", name = "usuarios"))
 public class Usuarios {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nome;
+    @NotNull
     private String cpf;
     @Column(name = "data_cadastro")
     private LocalDate dataCadastro = LocalDate.now();

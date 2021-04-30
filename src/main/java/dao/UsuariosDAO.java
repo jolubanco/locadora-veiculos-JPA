@@ -14,6 +14,7 @@ public class UsuariosDAO {
 
     public void cadastrar(Usuarios usuario){
         entityManager.persist(usuario);
+        System.out.println("Usuário Cadastrado com Sucesso!");
     }
 
     public Usuarios buscarPorUsername(String username){

@@ -16,6 +16,7 @@ public class VeiculosDAO {
 
     public void cadastrar(Veiculos veiculo){
         entityManager.persist(veiculo);
+        System.out.println("Veículo Cadastrado com Sucesso!");
     }
 
     public List<Veiculos> buscarTodos(){
@@ -31,5 +32,11 @@ public class VeiculosDAO {
     public List<Veiculos> buscarPorCategoria(String categoria){
         String jpql = "SELECT v FROM Veiculos v WHERE v.categoria.nome = :categoriaInformada";
         return entityManager.createQuery(jpql,Veiculos.class).setParameter("categoriaInformada",categoria).getResultList();
+    }
+
+    public void desativarVeiculo(String placa){
+        String jpql = "UPDATE Veiculos SET status = 0 WHERE placa = :placaInformada";
+        entityManager.createQuery(jpql).setParameter("placaInformada",placa).executeUpdate();
+        System.out.println("Veículo Desativado com Sucesso!");
     }
 }

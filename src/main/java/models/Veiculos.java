@@ -1,5 +1,7 @@
 package models;
 
+import com.sun.istack.NotNull;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -7,29 +9,32 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "veiculos")
+@Table(uniqueConstraints =
+@UniqueConstraint(columnNames = "placa", name = "veiculos"))
 public class Veiculos {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) //verificar a strategy
     private Long id;
     private String marca;
+    @NotNull
     private String placa;
     private String modelo;
     @Column(name = "numero_portas")
     private int numeroPortas;
     private BigDecimal valor;
+    @Column(name = "valor_diaria")
+    private BigDecimal valorDiaria;
     private String cor;
     private int ano;
     @Column(name = "data_cadastro")
     private LocalDate dataCadastro = LocalDate.now();
     @ManyToOne
     private CategoriasVeiculo categoria;
-    private int status = 1; //corrigir o formato, está estranho no MySQL
-    //TESTE
-    @OneToMany(mappedBy= "veiculo", cascade = CascadeType.ALL) //necesario configurr quando existe relaciomento bidirecional
+    private int status = 1;
+
+    @OneToMany(mappedBy= "veiculo", cascade = CascadeType.ALL)
     private List<VeiculosAlugados> historicoDeAlugueis = new ArrayList<>();
-    //
 
     public Veiculos(){}
 
@@ -38,6 +43,33 @@ public class Veiculos {
         this.placa = placa;
         this.valor = valor;
         this.categoria = categoria;
+        this.valorDiaria = valor.multiply(new BigDecimal("0.002"));
+    }
+
+    @Override
+    public String toString() {
+        return "Veiculos{" +
+                "id=" + id +
+                ", marca='" + marca + '\'' +
+                ", placa='" + placa + '\'' +
+                ", modelo='" + modelo + '\'' +
+                ", numeroPortas=" + numeroPortas +
+                ", valor=" + valor +
+                ", cor='" + cor + '\'' +
+                ", ano=" + ano +
+                ", dataCadastro=" + dataCadastro +
+                ", categoria=" + categoria.getNome() +
+                ", status=" + status +
+                ", historicoDeAlugueis=" + historicoDeAlugueis +
+                '}';
+    }
+
+    public BigDecimal getValorDiaria() {
+        return valorDiaria;
+    }
+
+    public void setValorDiaria(BigDecimal valorDiaria) {
+        this.valorDiaria = valorDiaria;
     }
 
     public int getStatus() {

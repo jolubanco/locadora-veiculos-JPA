@@ -14,7 +14,14 @@ public class CategoriasVeiculo {
         public CategoriasVeiculo() {
         }
 
-        public CategoriasVeiculo(String nome) {
+    @Override
+    public String toString() {
+        return "Categorias: " +
+                "id = " + id +
+                ", nome = " + nome;
+    }
+
+    public CategoriasVeiculo(String nome) {
             this.nome = nome;
         }
 

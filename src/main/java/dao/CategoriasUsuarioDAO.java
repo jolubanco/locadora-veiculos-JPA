@@ -15,4 +15,9 @@ public class CategoriasUsuarioDAO {
     public void cadastrar(CategoriasUsuario categoriasUsuario){
         entityManager.persist(categoriasUsuario);
     }
+
+    public CategoriasUsuario buscarPorNome(String nome){
+        String jpql = "SELECT c FROM CategoriasUsuario c WHERE c.nome =: nomeInformado";
+        return entityManager.createQuery(jpql,CategoriasUsuario.class).setParameter("nomeInformado",nome).getSingleResult();
+    }
 }

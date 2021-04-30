@@ -16,6 +16,7 @@ public class VeiculosAlugadosDAO {
 
     public void cadastrar(VeiculosAlugados veiculosAlugado){
         entityManager.persist(veiculosAlugado);
+        System.out.println("Locação realizada com sucesso!");
     }
 
     public List<VeiculosAlugados> buscarTodos(){

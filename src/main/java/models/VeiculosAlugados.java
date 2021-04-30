@@ -19,7 +19,7 @@ public class VeiculosAlugados {
     @ManyToOne
     private Veiculos veiculo;
     @Column(name = "data_inicio")
-    private LocalDate dataInicio;
+    private LocalDate dataInicio = LocalDate.now();
     @Column(name = "data_final")
     private Date dataFinal;
     @Column(name = "valor_diaria")
@@ -34,7 +34,8 @@ public class VeiculosAlugados {
         this.usuario = usuario;
         this.veiculo = veiculo;
         this.dataFinal = dataFinal;
-        this.dataInicio = LocalDate.now();
+        this.valorDiaria = veiculo.getValorDiaria();
+        this.valorLocacao = veiculo.getValorDiaria().multiply(new BigDecimal("2")); // o correto é colocar o numero de diarias
     }
 
     @Override

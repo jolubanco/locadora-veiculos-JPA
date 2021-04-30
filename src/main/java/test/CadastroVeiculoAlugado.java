@@ -10,7 +10,7 @@ import java.util.Date;
 
 public class CadastroVeiculoAlugado {
     public static void main(String[] args) {
-        Login login = new Login("tonhao3","2114");
+        Login login = new Login("t","2114");
         CategoriasUsuario categoriasUsuario = new CategoriasUsuario("Design");
         Usuarios usuario = new Usuarios("Tonho","1010",categoriasUsuario,login);
         CategoriasVeiculo categoriasVeiculo = new CategoriasVeiculo("Moto");
