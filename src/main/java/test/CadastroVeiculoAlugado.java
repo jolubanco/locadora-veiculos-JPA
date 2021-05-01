@@ -15,7 +15,7 @@ public class CadastroVeiculoAlugado {
         Usuarios usuario = new Usuarios("Tonho","1010",categoriasUsuario,login);
         CategoriasVeiculo categoriasVeiculo = new CategoriasVeiculo("Moto");
         Veiculos veiculo = new Veiculos("Renaut","AAA-1010",new BigDecimal("35000"),categoriasVeiculo);
-        VeiculosAlugados veiculosAlugados = new VeiculosAlugados(usuario,veiculo,new Date(2020,04,30));
+        VeiculosAlugados veiculosAlugados = new VeiculosAlugados(usuario,veiculo,new Date(2020,04,30),3);
         usuario.adicionarVeiculoAlugado(veiculosAlugados);
 
         System.out.println(usuario.getHistorioVeiculosAlugados());

@@ -23,4 +23,16 @@ public class VeiculosAlugadosDAO {
         String jpql = "SELECT v FROM VeiculosAlugados v";
         return entityManager.createQuery(jpql,VeiculosAlugados.class).getResultList();
     }
+
+    public void desativarLocacao(Long id){
+        String jpql = "UPDATE VeiculosAlugados SET status = 0 WHERE id = :idInformado";
+        entityManager.createQuery(jpql).setParameter("idInformado",id).executeUpdate();
+        System.out.println("Locação destativada com Sucesso!");
+    }
+
+    public void desativarCliente(String cpf){
+        String jpql = "UPDATE Usuarios SET status = 0 WHERE cpf = :cpfInformado";
+        entityManager.createQuery(jpql).setParameter("cofInformado",cpf).executeUpdate();
+        System.out.println("Cliente Desativado com Sucesso!");
+    }
 }

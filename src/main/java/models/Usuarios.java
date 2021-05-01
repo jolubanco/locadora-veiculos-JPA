@@ -26,10 +26,10 @@ public class Usuarios {
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
     private List<VeiculosAlugados> historioVeiculosAlugados = new ArrayList<>();
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private CategoriasUsuario categoria;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     private Login login;
 
     public Usuarios() {
@@ -46,6 +46,19 @@ public class Usuarios {
         veiculosAlugados.setUsuario(this);
         this.historioVeiculosAlugados.add(veiculosAlugados);
     }
+
+    @Override
+    public String toString() {
+        return "Usuario: " +
+                "id = " + id +
+                ", nome = '" + nome + '\'' +
+                ", cpf = '" + cpf + '\'' +
+                ", dataCadastro = " + dataCadastro +
+                ", status = " + status +
+                ", historioVeiculosAlugados = " + historioVeiculosAlugados +
+                ", categoria = " + categoria.getNome();
+    }
+
     public Long getId() {
         return id;
     }

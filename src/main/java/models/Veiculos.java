@@ -29,7 +29,10 @@ public class Veiculos {
     private int ano;
     @Column(name = "data_cadastro")
     private LocalDate dataCadastro = LocalDate.now();
-    @ManyToOne
+    @ManyToOne (fetch = FetchType.LAZY) //faz com que o carregamento pelo banco só ocorra quando solicitado
+    //o padrão é EAGER, sempre que seleciono o objeto ele carrega todos os relacionamentos
+    //oneToOne e ManyToOne, gastando muita mememoria para algo que as vezes é desnecessário
+    //BOA PRATICA É SEMPRE MUDAR PARA (fetch = FetchType.LAZY), PARA RELACIONAMENTOS @...ToOne
     private CategoriasVeiculo categoria;
     private int status = 1;
 

@@ -5,7 +5,9 @@ import util.JPAUtil;
 
 import javax.persistence.EntityManager;
 import java.math.BigDecimal;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Scanner;
 
 public class MovidaApplication {
@@ -80,7 +82,7 @@ public class MovidaApplication {
                     if(usuario.getLogin().getSenha().equals(senhaSolicitada)){
                         System.out.println("Seja Bem Vindo " + usuario.getCategoria().getNome() + " " + usuario.getNome());
                         condicao = true;
-                        while(condicao){ //fazer condicao = false, quando solicitar para sair do sistema
+                        while(condicao){
 
 
                             if(usuario.getCategoria().getNome().equals("Cliente")){
@@ -92,11 +94,10 @@ public class MovidaApplication {
                                     case 2:
                                         realizarLocacao(entityManager, leitor, usuario,veiculosAlugadosDAO,veiculosDAO);
                                         break;
-
-                                    case 3: //Histórico de veículos alugados (do usuario)
-                                        System.out.println(usuario.getHistorioVeiculosAlugados()); //ainda não está conectado com o banco
+                                    case 3:
+                                        usuario.getHistorioVeiculosAlugados().forEach(h -> System.out.println(h.toString()));
                                         break;
-                                    case 4: //Sair
+                                    case 4:
                                         System.out.println("Saindo do Sistema!\n" +
                                                 "x-------------------------x");
                                         condicao = false;
@@ -113,23 +114,26 @@ public class MovidaApplication {
                                     case 2: //Atualizar veículos
                                         break;
                                     case 3:
-                                        consultarVeiculosCadastrados(entityManager,veiculosDAO);
+                                        consultarVeiculosCadastrados(veiculosDAO);
                                         break;
                                     case 4:
                                         desativarVeiculo(entityManager, veiculosDAO, leitor);
-                                        //nao atualiza na hora, precisa reiniciar a aplicacao
                                         break;
-                                    case 5: //Consultar clientes cadastrados
+                                    case 5:
+                                        consultarClientesCadastrados(usuariosDAO);
                                         break;
-                                    case 6: //Desativar cliente
+                                    case 6: //Fazer com que o usuarios só possa logar se nãoe estiver desativado
+                                        desativarCliente(entityManager, usuariosDAO, leitor);
                                         break;
-                                    case 7: //Consultar veículos alugados
+                                    case 7:
+                                        consultarTodosVeiculosAlugados(veiculosAlugadosDAO);
                                         break;
-                                    case 8: //Finalizar Locação
+                                    case 8:
+                                        desativarLocacao(entityManager, veiculosAlugadosDAO, leitor);
                                         break;
                                     case 9: //Exibir Relatório de Locações
                                         break;
-                                    case 10: //Sair
+                                    case 10:
                                         System.out.println("Saindo do Sistema!\n" +
                                                 "x-------------------------x");
                                         condicao = false;
@@ -143,24 +147,55 @@ public class MovidaApplication {
                         System.out.println("Username ou senha incorretos. Tente novamente!");
                     }
                 }
-            //entityManager.close();
+            //entityManager.clear();
         }
     }
 
+    private static void desativarLocacao(EntityManager entityManager, VeiculosAlugadosDAO veiculosAlugadosDAO, Scanner leitor) {
+        consultarTodosVeiculosAlugados(veiculosAlugadosDAO);
+        System.out.print("Id da locação a ser desativada: ");
+        Long idLocacaoParaDesativar = leitor.nextLong();
+        //entityManager.getTransaction().begin();
+        veiculosAlugadosDAO.desativarLocacao(idLocacaoParaDesativar);
+        entityManager.getTransaction().commit();
+        entityManager.clear();
+    }
+
+    private static void desativarCliente(EntityManager entityManager, UsuariosDAO usuariosDAO, Scanner leitor) {
+        //posteriormente realizar um filtro para o funcionario só poder exlcluir outros funcionarios se for um gerente
+        consultarClientesCadastrados(usuariosDAO);
+        System.out.print("Cpf do Cliente a ser desativado: ");
+        String cpfClienteParaDesativar = leitor.nextLine();
+        //entityManager.getTransaction().begin();
+        usuariosDAO.desativarCliente(cpfClienteParaDesativar);
+        entityManager.getTransaction().commit();
+        entityManager.clear();
+        // entityManager.close();
+    }
+    //usuarioservices
+    private static void consultarTodosVeiculosAlugados(VeiculosAlugadosDAO veiculosAlugadosDAO) {
+        veiculosAlugadosDAO.buscarTodos().forEach(vecalu -> System.out.println(vecalu.toString()));
+    }
+    //usuarioservices
+    private static void consultarClientesCadastrados(UsuariosDAO usuariosDAO) {
+        usuariosDAO.buscarTodos().forEach(u -> System.out.println(u.toString()));
+    }
+    //usuarioservices
     private static void desativarVeiculo(EntityManager entityManager, VeiculosDAO veiculosDAO, Scanner leitor) {
-        consultarVeiculosCadastrados(entityManager, veiculosDAO);
-        System.out.println("Placa do Veiculo a ser desativado:");
+        consultarVeiculosCadastrados(veiculosDAO);
+        System.out.print("Placa do Veiculo a ser desativado: ");
         String placaVeiculoParaDesativar = leitor.nextLine();
         //entityManager.getTransaction().begin();
         veiculosDAO.desativarVeiculo(placaVeiculoParaDesativar);
         entityManager.getTransaction().commit();
+        entityManager.clear();
         // entityManager.close();
     }
-
-    private static void consultarVeiculosCadastrados(EntityManager entityManager,VeiculosDAO veiculosDAO) {
+    //usuarioservices
+    private static void consultarVeiculosCadastrados(VeiculosDAO veiculosDAO) {
         veiculosDAO.buscarTodos().forEach(v -> System.out.println(v.toString()));
     }
-
+    //usuarioservices
     private static void realizarLocacao(EntityManager entityManager, Scanner leitor, Usuarios usuario,VeiculosAlugadosDAO veiculosAlugadosDAO, VeiculosDAO veiculosDAO) {
 
         veiculosDAO.buscarTodos().forEach(v -> System.out.println(v.toString()));
@@ -171,12 +206,19 @@ public class MovidaApplication {
         System.out.print("Número Diarias: "); //o certo é data, ver como formatar
         int numeroDiarias = leitor.nextInt();
 
+        GregorianCalendar data = new GregorianCalendar();
+        data.add(Calendar.DAY_OF_MONTH, numeroDiarias);
+        Date dataFinal = data.getTime();
+        //DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        //String dataFinalFormatada = dateFormat.format(dataFinal);
+        //corrigir pois preciso enviar um DATE e a data formata é uma String
+
         //entityManager.getTransaction().begin();
-        veiculosAlugadosDAO.cadastrar(new VeiculosAlugados(usuario,veiculo,new Date(2020,04,30)));//corrigir a data
+        veiculosAlugadosDAO.cadastrar(new VeiculosAlugados(usuario,veiculo,dataFinal,numeroDiarias)); //MELHORAR, sem pedir numero de diarias ou data final
         entityManager.getTransaction().commit();
         //entityManager.close();
     }
-
+    //usuarioservices
     private static void cadastrarNovoVeiculo(EntityManager entityManager, Scanner leitor, CategoriasVeiculoDAO categoriasVeiculoDAO, VeiculosDAO veiculosDAO) {
 
         System.out.println("Forneça as seguitnes informações");

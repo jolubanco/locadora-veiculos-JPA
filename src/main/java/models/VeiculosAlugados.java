@@ -14,9 +14,9 @@ public class VeiculosAlugados {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Usuarios usuario;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Veiculos veiculo;
     @Column(name = "data_inicio")
     private LocalDate dataInicio = LocalDate.now();
@@ -30,12 +30,12 @@ public class VeiculosAlugados {
 
     public VeiculosAlugados(){}
 
-    public VeiculosAlugados(Usuarios usuario, Veiculos veiculo, Date dataFinal) {
+    public VeiculosAlugados(Usuarios usuario, Veiculos veiculo, Date dataFinal, int numeroDiarias) {
         this.usuario = usuario;
         this.veiculo = veiculo;
         this.dataFinal = dataFinal;
         this.valorDiaria = veiculo.getValorDiaria();
-        this.valorLocacao = veiculo.getValorDiaria().multiply(new BigDecimal("2")); // o correto é colocar o numero de diarias
+        this.valorLocacao = veiculo.getValorDiaria().multiply(new BigDecimal(numeroDiarias)); // o correto é colocar o numero de diarias
     }
 
     @Override
